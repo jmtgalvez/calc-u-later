@@ -18,7 +18,8 @@ function clearCalc(type) {
         case "AC":  operand1 = null;
                     operand2 = null;
                     operation = null;
-        case "C":   $display.innerText = null;
+        case "C":   $display.innerText = 0;
+                    clearDisplay = true;
         default:    return null;
     }
 }
@@ -40,7 +41,6 @@ function performOperation(func) {
         if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
         operation = func === '=' ? null : func;
         clearDisplay = true;
-        console.log(result)
         if (result || result == 0) {
             operand1 = func === '=' ? null : result;
             $display.innerText = result;
