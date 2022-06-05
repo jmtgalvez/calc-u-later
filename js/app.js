@@ -8,7 +8,7 @@ function addDigit(digit) {
         clearDisplay = false;
     }
     let current = $display.innerText;
-    if (current.length > 20) return null;
+    if (current.length > 22) return null;
     if (current) $display.innerText += (digit === '.' && current.includes('.')) ? '' : digit;
     else $display.innerText = digit;
 }

@@ -8,7 +8,7 @@ body {
     justify-content: center;
     align-items: start;
 
-    background-color: linear-gradient(to left top, red, green);
+    background-image: linear-gradient(to bottom left, green, aqua);
 
     font-family: 'Courier New', Courier, monospace;
 }
@@ -16,10 +16,11 @@ body {
     padding: 2em;
     width: min(600px, 100vw);
     border-radius: 1em;
+    background-color: #cdcdcd;
 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 1em;
 }
 #app-name {
     grid-column: 1/-1;
@@ -30,20 +31,29 @@ body {
     grid-column: 1/-1;
     border: 3px solid black;
     padding: 1em;
+    margin: 0;
     height: 3em;
+    background-color: #fefefe;
 
     text-align: right;
-    font-size: 2em;
+    font-size: 1.2em;
 }
 .calculator > button {
     cursor: pointer;
     border-radius: 5px;
     font-size: 1.5em;
 }
+.square, .tall { 
+    background-color: gray;
+    color: white;
+}
 .square { aspect-ratio: 1/1;}
 .tall { grid-row: span 2;}
+.number { background-color: black;}
+.AC { background-color: red;}
 
 @media screen and (min-width: 768px) {
     body { align-items: center;}
     .calculator { border: 3px solid black;}
+    #display { font-size: 2em;}
 }
