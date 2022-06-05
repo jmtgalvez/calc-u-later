@@ -1,9 +1,10 @@
 const $body = document.querySelector(`body`);
 const $display = document.querySelector(`#display`);
 const OPERATIONS = "+-*÷";
-let operand1 = null, operand2 = null, operation = null, clearDisplay = true;
+let operand1 = null, operand2 = null, operation = null, clearDisplay = true, activeInput = true;
 
 document.addEventListener("keydown", e => {
+    if (!activeInput) return null;
     if (e.key === '1') addDigit(1);
     if (e.key === '2') addDigit(2);
     if (e.key === '3') addDigit(3);
@@ -23,6 +24,7 @@ document.addEventListener("keydown", e => {
 });
 
 function addDigit(digit) {
+    if (!activeInput) return null;
     let current = $display.innerText;
     if (digit === '.' && !current.includes('.')) {
         if (clearDisplay || current == '0') {
@@ -44,6 +46,7 @@ function addDigit(digit) {
 }
 
 function clearCalc(type) {
+    if (!activeInput) return null;
     switch(type) {
         case "single":  $display.innerText = ($display.innerText.length == 1 || ($display.innerText.length == 2 && $display.innerText[0] == '-')) ? '0' : $display.innerText.slice(0, -1);
                         return null;
@@ -56,7 +59,8 @@ function clearCalc(type) {
     }
 }
 
-function performOperation(func) {
+async function performOperation(func) {
+    if (!activeInput) return null;
     operand2 = parseFloat($display.innerText);
     if (isNaN(operand2)) return null;
     if (isNaN(operand1) || operand1 == null) {
@@ -75,7 +79,14 @@ function performOperation(func) {
         clearDisplay = true;
         if (result || result == 0) {
             operand1 = func === '=' ? null : result;
-            $display.innerText = result;
+            if (func === '=') {
+                activeInput = false;
+                setTimeout( () => {
+                    $display.innerText = result;
+                    activeInput = true;
+                }, Math.floor((Math.random() * 15))*100  + 500);
+            }
+            else $display.innerText = result;
         }
     } else if (OPERATIONS.includes(func)) {
         operation = func;
