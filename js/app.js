@@ -25,14 +25,14 @@ document.addEventListener("keydown", e => {
 function addDigit(digit) {
     let current = $display.innerText;
     if (digit === '.' && !current.includes('.')) {
-        if (clearDisplay || current.innerText == '0') {
+        if (clearDisplay || current == '0') {
             $display.innerText = '0';
             clearDisplay = false;
         }
         $display.innerText += '.';
         return null;
     }
-    if (clearDisplay) {
+    if (clearDisplay || current == '0') {
         $display.innerText = null;
         clearDisplay = false;
     }
@@ -82,7 +82,7 @@ function performOperation(func) {
     }
 }
 
-const add = (num1, num2) => { return num1 + num2;}
-const subtract = (num1, num2) => { return num1 - num2;}
-const multiply = (num1, num2) => { return num1 * num2;}
-const divide = (num1, num2) => { return num1 / num2;}
+const add = (num1, num2) => { return parseFloat(num1) + (num2);}
+const subtract = (num1, num2) => { return parseFloat(num1) - (num2);}
+const multiply = (num1, num2) => { return parseFloat(num1) * (num2);}
+const divide = (num1, num2) => { return parseFloat(num1) / (num2);}
