@@ -32,6 +32,7 @@ function addDigit(digit) {
         $display.innerText += '.';
         return null;
     }
+    if (digit == '00' && current == '0') return null;
     if (clearDisplay || current == '0') {
         $display.innerText = null;
         clearDisplay = false;
@@ -44,7 +45,7 @@ function addDigit(digit) {
 
 function clearCalc(type) {
     switch(type) {
-        case "single":  $display.innerText = $display.innerText.slice(0, -1);
+        case "single":  $display.innerText = $display.innerText.length == 1 ? '0' : $display.innerText.slice(0, -1);
                         return null;
         case "AC":      operand1 = null;
                         operand2 = null;
