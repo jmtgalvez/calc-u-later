@@ -16,14 +16,14 @@ function addDigit(digit) {
 function clearCalc(type) {
     switch(type) {
         case "AC":  operand1 = null;
+                    operand2 = null;
                     operation = null;
-        case "C":   operand2 = null;
-                    $display.innerText = null;
+        case "C":   $display.innerText = null;
         default:    return null;
     }
 }
 
-function calculatorFn(func) {
+function performOperation(func) {
     operand2 = parseFloat($display.innerText);
     if (isNaN(operand2)) return null;
     if (isNaN(operand1) || operand1 == null) {
@@ -40,7 +40,8 @@ function calculatorFn(func) {
         if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
         operation = func === '=' ? null : func;
         clearDisplay = true;
-        if (result) {
+        console.log(result)
+        if (result || result == 0) {
             operand1 = func === '=' ? null : result;
             $display.innerText = result;
         }
@@ -48,6 +49,7 @@ function calculatorFn(func) {
         operation = func;
         clearDisplay = true;
     }
+    operand2 = null;
 }
 
 const add = (num1, num2) => { return num1 + num2;}
