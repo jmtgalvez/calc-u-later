@@ -45,7 +45,7 @@ function addDigit(digit) {
 
 function clearCalc(type) {
     switch(type) {
-        case "single":  $display.innerText = $display.innerText.length == 1 ? '0' : $display.innerText.slice(0, -1);
+        case "single":  $display.innerText = ($display.innerText.length == 1 || ($display.innerText.length == 2 && $display.innerText[0] == '-')) ? '0' : $display.innerText.slice(0, -1);
                         return null;
         case "AC":      operand1 = null;
                         operand2 = null;
