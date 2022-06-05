@@ -47,8 +47,15 @@ body {
 }
 .square { aspect-ratio: 1/1;}
 .tall { grid-row: span 2;}
-.number { background-color: black !important;}
+.number { background-color: black;}
 .AC { background-color: red;}
+.square:hover, 
+.tall:hover {
+    /* background-color: rgba(0,0,0,50%); */
+    background-color: #fefefe;
+    color: #131313;
+}
+.AC:hover { color: red;}
 
 @media screen and (min-width: 768px) {
     #display { font-size: 2em;}
