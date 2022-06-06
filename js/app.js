@@ -82,15 +82,15 @@ function performOperation(func) {
     clearDisplay = true;
     if (result || result == 0) {
         operand1 = func === '=' ? null : result;
-        // // DELAY because Calc U LATER...
-        // if (func === '=') {
-        //     activeInput = false;
-        //     setTimeout( () => {
-        //         $display.innerText = result;
-        //         activeInput = true;
-        //     }, Math.floor((Math.random() * 15))*100  + 500);
-        // }
-        // else 
+        // DELAY because Calc U LATER...
+        if (func === '=') {
+            activeInput = false;
+            setTimeout( () => {
+                $display.innerText = result;
+                activeInput = true;
+            }, Math.floor((Math.random() * 15))*100  + 500);
+        }
+        else 
         $display.innerText = result;
     }
 }
