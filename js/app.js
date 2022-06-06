@@ -16,6 +16,7 @@ document.addEventListener("keydown", e => {
     if (e.key === '8') addDigit(8);
     if (e.key === '9') addDigit(9);
     if (e.key === '0') addDigit(0);
+    if (e.key === '.') addDigit('.');
     if (e.key === '+') performOperation('+');
     if (e.key === '-') performOperation('-');
     if (e.key === '*') performOperation('*');
@@ -44,7 +45,6 @@ function addDigit(digit) {
         current = "";
         clearDisplay = false;
     }
-    // set max length of 22 characters
     if (current.length > 22) return null;
     if (current) $display.innerText += digit;
     else $display.innerText = digit;
@@ -57,7 +57,6 @@ function clearCalc(type) {
         case "single":  $display.innerText = ($display.innerText.length == 1 || ($display.innerText.length == 2 && $display.innerText[0] == '-')) ? '0' : $display.innerText.slice(0, -1);
                         return null;
         case "AC":      operand1 = null;
-                        operand2 = null;
                         operation = null;
         case "C":       $display.innerText = 0;
                         clearDisplay = true;
@@ -92,7 +91,7 @@ function performOperation(func) {
             }, Math.floor((Math.random() * 15))*100  + 500);
         }
         else 
-            $display.innerText = result;
+        $display.innerText = result;
     }
 }
 
