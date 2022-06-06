@@ -1,6 +1,5 @@
 const $body = document.querySelector(`body`);
 const $display = document.querySelector(`#display`);
-const OPERATIONS = "+-*÷";
 let operand1 = null, operand2 = null, operation = null, clearDisplay = true, activeInput = true;
 
 document.addEventListener("keydown", e => {
@@ -35,11 +34,10 @@ function addDigit(digit) {
         return null;
     }
     if (digit == '00' && current == '0') return null;
-    if (clearDisplay || current == '0') {
-        $display.innerText = null;
+    if (clearDisplay) {
+        current = "";
         clearDisplay = false;
     }
-    current = $display.innerText;
     if (current.length > 22) return null;
     if (current) $display.innerText += digit;
     else $display.innerText = digit;
@@ -67,34 +65,24 @@ async function performOperation(func) {
         operand1 = operand2;
         operand2 = null;
     }
-    if (clearDisplay && OPERATIONS.includes(operation)) {
+    if (clearDisplay) {
         operation = func;
-    } else if (OPERATIONS.includes(operation)) {
-        let result;
-        if (operation === "+") result = add(operand1, operand2);
-        if (operation === "-") result = subtract(operand1, operand2);
-        if (operation === "*") result = multiply(operand1, operand2);
-        if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
-        operation = func === '=' ? null : func;
-        clearDisplay = true;
-        if (result || result == 0) {
-            operand1 = func === '=' ? null : result;
-            if (func === '=') {
-                activeInput = false;
-                setTimeout( () => {
-                    $display.innerText = result;
-                    activeInput = true;
-                }, Math.floor((Math.random() * 15))*100  + 500);
-            }
-            else $display.innerText = result;
-        }
-    } else if (OPERATIONS.includes(func)) {
-        operation = func;
-        clearDisplay = true;
+        return null;
+    }
+    let result;
+    if (operation === "+") result = add(operand1, operand2);
+    if (operation === "-") result = subtract(operand1, operand2);
+    if (operation === "*") result = multiply(operand1, operand2);
+    if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
+    operation = func === '=' ? null : func;
+    clearDisplay = true;
+    if (result || result == 0) {
+        operand1 = func === '=' ? null : result;
+        $display.innerText = result;
     }
 }
 
-const add = (num1, num2) => { return parseFloat(num1) + (num2);}
-const subtract = (num1, num2) => { return parseFloat(num1) - (num2);}
-const multiply = (num1, num2) => { return parseFloat(num1) * (num2);}
-const divide = (num1, num2) => { return parseFloat(num1) / (num2);}
+const add = (num1, num2) => { return parseFloat(num1+num2);}
+const subtract = (num1, num2) => { return parseFloat(num1-num2);}
+const multiply = (num1, num2) => { return parseFloat(num1*num2);}
+const divide = (num1, num2) => { return parseFloat(num1/num2);}
