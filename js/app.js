@@ -34,7 +34,7 @@ function addDigit(digit) {
         return null;
     }
     if (digit == '00' && current == '0') return null;
-    if (clearDisplay) {
+    if (clearDisplay || current == 0) {
         current = "";
         clearDisplay = false;
     }
@@ -78,14 +78,14 @@ async function performOperation(func) {
     clearDisplay = true;
     if (result || result == 0) {
         operand1 = func === '=' ? null : result;
-        if (func === '=') {
-            activeInput = false;
-            setTimeout( () => {
-                $display.innerText = result;
-                activeInput = true;
-            }, Math.floor((Math.random() * 15))*100  + 500);
-        }
-        else 
+        // if (func === '=') {
+        //     activeInput = false;
+        //     setTimeout( () => {
+        //         $display.innerText = result;
+        //         activeInput = true;
+        //     }, Math.floor((Math.random() * 15))*100  + 500);
+        // }
+        // else 
             $display.innerText = result;
     }
 }
