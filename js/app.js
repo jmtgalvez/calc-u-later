@@ -67,26 +67,19 @@ function clearCalc(type) {
 
 function performOperation(func) {
     if (!activeInput) return null;
-    let operand2 = parseFloat($display.innerText);
-    // 
-    // if (isNaN(operand2)) return null;
-    // no initial input
-    if (isNaN(operand1) || operand1 == null) {
-        operand1 = operand2;
-        operand2 = null;
-    }
-    // no number input after operation input, replace operation
-    if (clearDisplay) {
-        operation = func;
-        return null;
-    }
     let result;
-    if (operation === "+") result = add(operand1, operand2);
-    if (operation === "-") result = subtract(operand1, operand2);
-    if (operation === "*") result = multiply(operand1, operand2);
-    if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
-    operation = func === '=' ? null : func;
-    // set clearDisplay to true, so you wouldn't need to clear display immediately
+    let operand2 = parseFloat($display.innerText);
+    // no initial input or input after AC / C
+    if (!(isNaN(operand1) || operand1 === null) && !clearDisplay) {
+        if (operation === "+") result = add(operand1, operand2);
+        if (operation === "-") result = subtract(operand1, operand2);
+        if (operation === "*") result = multiply(operand1, operand2);
+        if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
+    }
+    else if (isNaN(operand1) || operand1 == null) {
+        operand1 = operand2;
+    }
+    operation = func;
     clearDisplay = true;
     if (result || result == 0) {
         operand1 = func === '=' ? null : result;
