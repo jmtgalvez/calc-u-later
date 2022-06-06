@@ -1,6 +1,8 @@
-const $body = document.querySelector(`body`);
 const $display = document.querySelector(`#display`);
-let operand1 = null, operand2 = null, operation = null, clearDisplay = true, activeInput = true;
+let operand1 = null;  // save first operand to memory
+let operation = null; // save operation to memory
+let clearDisplay = true; // true if next digit input should clear display; operation input should not clear display
+let activeInput = true; // flag for sleep delay because Calc U LATER...
 
 document.addEventListener("keydown", e => {
     if (!activeInput) return null;
@@ -25,7 +27,9 @@ document.addEventListener("keydown", e => {
 function addDigit(digit) {
     if (!activeInput) return null;
     let current = $display.innerText;
+    // filter decimal input
     if (digit === '.' && !current.includes('.')) {
+        // display "0."" instead of just adding decimal
         if (clearDisplay || current == '0') {
             $display.innerText = '0';
             clearDisplay = false;
@@ -33,11 +37,14 @@ function addDigit(digit) {
         $display.innerText += '.';
         return null;
     }
+    // ignore 00 if display is just 0
     if (digit == '00' && current == '0') return null;
+    // prevent leading zeroes
     if (clearDisplay || current == 0) {
         current = "";
         clearDisplay = false;
     }
+    // set max length of 22 characters
     if (current.length > 22) return null;
     if (current) $display.innerText += digit;
     else $display.innerText = digit;
@@ -46,6 +53,7 @@ function addDigit(digit) {
 function clearCalc(type) {
     if (!activeInput) return null;
     switch(type) {
+        // for backspace; remove last digit
         case "single":  $display.innerText = ($display.innerText.length == 1 || ($display.innerText.length == 2 && $display.innerText[0] == '-')) ? '0' : $display.innerText.slice(0, -1);
                         return null;
         case "AC":      operand1 = null;
@@ -57,14 +65,17 @@ function clearCalc(type) {
     }
 }
 
-async function performOperation(func) {
+function performOperation(func) {
     if (!activeInput) return null;
-    operand2 = parseFloat($display.innerText);
-    if (isNaN(operand2)) return null;
+    let operand2 = parseFloat($display.innerText);
+    // 
+    // if (isNaN(operand2)) return null;
+    // no initial input
     if (isNaN(operand1) || operand1 == null) {
         operand1 = operand2;
         operand2 = null;
     }
+    // no number input after operation input, replace operation
     if (clearDisplay) {
         operation = func;
         return null;
@@ -75,17 +86,19 @@ async function performOperation(func) {
     if (operation === "*") result = multiply(operand1, operand2);
     if (operation === "÷" && operand2 != 0) result = divide(operand1, operand2);
     operation = func === '=' ? null : func;
+    // set clearDisplay to true, so you wouldn't need to clear display immediately
     clearDisplay = true;
     if (result || result == 0) {
         operand1 = func === '=' ? null : result;
-        // if (func === '=') {
-        //     activeInput = false;
-        //     setTimeout( () => {
-        //         $display.innerText = result;
-        //         activeInput = true;
-        //     }, Math.floor((Math.random() * 15))*100  + 500);
-        // }
-        // else 
+        // DELAY because Calc U LATER...
+        if (func === '=') {
+            activeInput = false;
+            setTimeout( () => {
+                $display.innerText = result;
+                activeInput = true;
+            }, Math.floor((Math.random() * 15))*100  + 500);
+        }
+        else 
             $display.innerText = result;
     }
 }
