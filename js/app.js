@@ -33,15 +33,15 @@ function addDigit(digit) {
         // display "0."" instead of just adding decimal
         if (clearDisplay || current == '0') {
             $display.innerText = '0';
-            clearDisplay = false;
         }
         $display.innerText += '.';
+        clearDisplay = false;
         return null;
     }
     // ignore 00 if display is just 0
     if (digit == '00' && current == '0') return null;
     // prevent leading zeroes
-    if (clearDisplay || current == 0) {
+    if (clearDisplay || current === '0') {
         current = "";
         clearDisplay = false;
     }
@@ -82,15 +82,15 @@ function performOperation(func) {
     clearDisplay = true;
     if (result || result == 0) {
         operand1 = func === '=' ? null : result;
-        // DELAY because Calc U LATER...
-        if (func === '=') {
-            activeInput = false;
-            setTimeout( () => {
-                $display.innerText = result;
-                activeInput = true;
-            }, Math.floor((Math.random() * 15))*100  + 500);
-        }
-        else 
+        // // DELAY because Calc U LATER...
+        // if (func === '=') {
+        //     activeInput = false;
+        //     setTimeout( () => {
+        //         $display.innerText = result;
+        //         activeInput = true;
+        //     }, Math.floor((Math.random() * 15))*100  + 500);
+        // }
+        // else 
         $display.innerText = result;
     }
 }
